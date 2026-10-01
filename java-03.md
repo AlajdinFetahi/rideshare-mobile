@@ -1,16 +1,20 @@
-# RideShare — Java 03
+# RideShare — Java 3
 
-## Prova 1
-Hapat: Hapa faqen kryesore në pamjen e telefonit me gjerësi 375 px dhe kontrollova listën dhe lëvizjen horizontale.
+## Çfarë ndërtova
+Ndërtova listën me tri karta udhëtimesh, faqen e detajeve, kërkesën e simuluar, faqen “Udhëtimi nuk u gjet” dhe stilet për telefon.
 
-Rezultati: U shfaqën saktësisht tri karta dhe faqja nuk kishte lëvizje anash.
+## Provat që bëra
+### Prova 1: Lista në telefon
+Hapa faqen kryesore në pamjen e telefonit me gjerësi 375 px; prisja tri karta pa lëvizje anash; pashë saktësisht tri karta dhe faqja nuk kishte lëvizje horizontale.
 
-## Prova 2
-Hapat: Hapa kartën 2, pastaj kartën 3 dhe në fund adresën `/udhetimi/99`.
+### Prova 2: Detajet e udhëtimit të dytë
+Klikova kartën 2; prisja adresën `/udhetimi/2` dhe vendtakimin e saj; pashë adresën e saktë dhe vendtakimin “Te stacioni kryesor”. Te karta 3 butoni “Nuk ka vende të lira” ishte i çaktivizuar, ndërsa `/udhetimi/99` shfaqi “Udhëtimi nuk u gjet”.
 
-Rezultati: Karta 2 shfaqi vendtakimin “Te stacioni kryesor”, karta 3 kishte butonin “Nuk ka vende të lira” të çaktivizuar dhe ID 99 shfaqi “Udhëtimi nuk u gjet”.
+### Prova 3: Kërkesa në pritje
+Klikova “Kërko vend”; prisja “Simulim: Në pritje”, pa rezervim real; pashë mesazhin e pritur. Pastaj lidhjet më kthyen te detajet dhe te lista.
 
-## Prova 3
-Hapat: Te detajet e kartës 2 shtypa “Kërko vend”, kontrollova mesazhin dhe përdora lidhjet për t'u kthyer te detajet dhe lista.
+## Çfarë do të përmirësoj
+Kërkesa është vetëm simulim dhe nuk ruhet; ruajtja reale do të shtohet më vonë.
 
-Rezultati: U shfaq mesazhi “Simulim: Në pritje” dhe kthimi mbrapa punoi deri te lista.
+## Ndihma nga AI (Artificial Intelligence – inteligjencë artificiale)
+AI më ndihmoi të krijoj skedarët dhe ta kontrolloj aplikacionin; faqet dhe rrjedhën i provova në shfletues.
