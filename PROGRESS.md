@@ -8,42 +8,50 @@
 - [x] Lista, detajet dhe kërkesa lexojnë në mënyrë asinkrone.
 - [x] Gjendjet për listë bosh, gabim lidhjeje, ID që mungon dhe zero vende.
 - [x] Testet e njësive dhe komponentëve të serverit.
-- [ ] Krijimi/lidhja e Neon dhe Vercel; mungojnë sesionet e autentifikuara.
-- [ ] Provat manuale kundër databazës reale dhe në gjerësi 375 px.
-- [x] Commit dhe push pas verifikimit përfundimtar.
-- [ ] Issue i dorëzimit; GitHub CLI nuk është i autentifikuar.
+- [x] Lidhja reale e Neon dhe Vercel.
+- [x] Tri provat praktike kundër databazës reale/lokale.
+- [x] Verifikimi responsive në gjerësi 375 px.
+- [ ] Commit/push final dhe Issue i dorëzimit.
+
+## Konfigurimi real
+
+- Neon: projekti ekzistues `rideshare-mobile`, rajoni `aws-eu-central-1`, branch-i primar `production`, databaza `neondb`.
+- Vercel: projekti `rideshare-mobile`, GitHub `AlajdinFetahi/rideshare-mobile`, production branch `main`, framework Next.js, Root Directory `aplikacioni`, function region `fra1`.
+- Production: https://rideshare-mobile-sage.vercel.app
+- `DATABASE_URL`: konfiguruar privatisht për Production dhe Development; jo për Preview.
+- `.env.local`, `.vercel`, `.next` dhe `node_modules`: të injoruara nga Git.
 
 ## Vendimet
 
-- Sekreti ruhet vetëm si `DATABASE_URL`; `.env*` mbetet i përjashtuar nga Git.
-- `.env.example` përmban vetëm një vlerë shembull pa kredenciale reale.
+- U ripërdor projekti ekzistues Neon në vend që të krijohej një projekt i dyfishtë.
+- I njëjti branch `production` i Neon përdoret lokalisht dhe në production; database branching automatik nuk u aktivizua.
+- Sekreti ruhet vetëm si `DATABASE_URL` dhe nuk dërgohet në client bundle.
 - Pyetja sipas ID-së përdor parametrizimin e klientit Neon.
 - Faqet janë `force-dynamic` që ndryshimet në databazë të lexohen në çdo kërkesë.
-- Raporti përshkruan vetëm provat e ekzekutuara realisht.
+- Kërkesa për vend mbetet simulim, jo rezervim real.
 
 ## Komandat dhe rezultatet
 
-- `npm install @neondatabase/serverless server-only` — përfundoi; npm raportoi dobësi që kërkojnë auditim.
-- `npm install --save-dev --save-exact vitest@4.1.11` — përfundoi pas shmangies së konfliktit të Vitest 5 me `@types/node` 20 dhe mbylli dobësinë e Vitest 4.0.18.
-- `npm test -- src/lib/db.test.ts` — RED: `db.ts` mungonte; GREEN: 2/2 teste kaluan.
-- `npm test -- src/lib/udhetimet.test.ts` — RED: funksionet asinkrone mungonin; GREEN së bashku me `db.test.ts`: 4/4 teste kaluan.
-- Testet e tri faqeve — RED: faqet përdornin të dhënat statike/Promise pa `await`; GREEN: 9/9 teste kaluan.
-- `npm test` — 13/13 teste kaluan me Vitest 4.1.11, pa paralajmërime.
-- `npm run lint` — kaloi pas zëvendësimit të lidhjes së brendshme `<a>` me `Link`.
-- `npm run build` — kaloi; lista, detajet dhe kërkesa u identifikuan si rrugë dinamike.
-- Prova HTTP pa `DATABASE_URL` — status 200, mesazhi i sigurt u shfaq dhe emri i variablës nuk u ekspozua.
-- `npm audit --omit=dev` — 0 dobësi prodhimi.
-- `npm audit` — 5 dobësi high vetëm në mjetet e lint-it; rregullimi i propozuar kërkon downgrade të papajtueshëm të `eslint-config-next`.
-- `git push origin main` — commit-i i implementimit `6956882` u dërgua me sukses.
+- `schema.sql` u kontrollua për veprime destruktive dhe u ekzekutua dy herë — 3 rreshta, pa dublikate.
+- SELECT real — ID 1 `08:00`/2 vende; ID 2 `08:15`/1 vend; ID 3 `07:45`/0 vende.
+- Prova 1 — `08:15 → 08:25 → 08:15` u verifikua në listë dhe detaje; ID 3 pa vende; ID 99 HTTP 404: **PASS**.
+- Prova 2 — `WHERE false` shfaqi listën bosh; rikthimi shfaqi tri kartat: **PASS**.
+- Prova 3 — mungesa lokale e `DATABASE_URL` shfaqi gabim të sigurt; rikthimi shfaqi tri kartat: **PASS**.
+- Browser automation në `375 × 844` — 9/9 gjendje u kapën dhe u inspektuan, pa overflow horizontal: **PASS**.
+- `npm test` — 5 skedarë, 13/13 teste kaluan.
+- `npm run lint` — kaloi pa gabime.
+- `npm run build` — kaloi; lista, detajet dhe kërkesa janë rrugë dinamike.
+- `npm audit --omit=dev` — 0 dobësi.
+- `npm audit` — 5 dobësi `high`, vetëm në zinxhirin e mjeteve të lint-it; rregullimi i propozuar kërkon downgrade të papajtueshëm të `eslint-config-next`.
+- Vercel deployment `dpl_FyVA9nVd6nJfvWw6WNdLGmZ8eEeg` — `Ready`, target `production`, funksionet në `fra1`.
 
 ## Rreziqet dhe hapi i ardhshëm
 
-- Nuk ka `DATABASE_URL`, Vercel CLI ose autentifikim GitHub CLI në mjedis.
-- Integrimi real me Neon, prova responsive në 375 px dhe dorëzimi nuk mund të verifikohen pa qasje në llogaritë përkatëse.
+- Rreziku i mbetur është vetëm auditimi i varësive të zhvillimit; prodhimi ka zero dobësi të raportuara.
+- Hapi i ardhshëm: commit/push final, verifikimi i deployment-it nga Git dhe dorëzimi pa dublikatë në Issue të profesorit.
 
 ## Rishikimi final
 
 - U krye rishikim adversarial lokal, jo i pavarur, mbi korrektësinë, sigurinë, integritetin e të dhënave, regresionet dhe testet.
-- Nuk u konfirmua asnjë problem bllokues në kodin e ndryshuar.
-- Evidenca: 13/13 teste, lint dhe build kaluan; prova HTTP pa `DATABASE_URL` ktheu mesazhin e sigurt pa ekspozuar emrin e sekretit; audit-i i prodhimit raportoi 0 dobësi.
-- Rreziku i mbetur: 5 dobësi high në varësitë e zhvillimit të `eslint-config-next`; rregullimi automatik i propozuar kërkon downgrade të papajtueshëm në Next 14.
+- Nuk u konfirmua problem bllokues në kodin e ndryshuar.
+- Evidenca: SELECT real, tri provat praktike, 13/13 teste, lint, build, audit prodhimi, deployment production dhe 9/9 kontrolle browser në 375 px.
