@@ -1,16 +1,39 @@
+import Link from "next/link";
 import { KartaUdhetimi } from "@/components/KartaUdhetimi";
-import { udhetimet } from "@/lib/udhetimet";
+import { lexoUdhetimet, type Udhetim } from "@/lib/udhetimet";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  let udhetimet: Udhetim[];
+
+  try {
+    udhetimet = await lexoUdhetimet();
+  } catch {
+    return (
+      <main>
+        <h1>RideShare</h1>
+        <p role="alert">Nuk u lidhëm me databazën. Provo përsëri.</p>
+        <Link className="action" href="/">
+          Provo përsëri
+        </Link>
+      </main>
+    );
+  }
+
   return (
     <main>
       <h1>RideShare · Udhëtimet për AAB</h1>
-      <p>Zgjidh një nisje dhe lexo detajet para kërkesës.</p>
-      <div className="trip-list">
-        {udhetimet.map((udhetim) => (
-          <KartaUdhetimi key={udhetim.id} udhetim={udhetim} />
-        ))}
-      </div>
+      <p>Burimi: Neon · të dhëna fiktive për ushtrime</p>
+      {udhetimet.length === 0 ? (
+        <p>Nuk ka udhëtime për momentin.</p>
+      ) : (
+        <div className="trip-list">
+          {udhetimet.map((udhetim) => (
+            <KartaUdhetimi key={udhetim.id} udhetim={udhetim} />
+          ))}
+        </div>
+      )}
     </main>
   );
 }
