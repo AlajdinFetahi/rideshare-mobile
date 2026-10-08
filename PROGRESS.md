@@ -11,7 +11,7 @@
 - [x] Lidhja reale e Neon dhe Vercel.
 - [x] Tri provat praktike kundër databazës reale/lokale.
 - [x] Verifikimi responsive në gjerësi 375 px.
-- [ ] Commit/push final dhe Issue i dorëzimit.
+- [x] Commit/push final dhe Issue i dorëzimit.
 
 ## Konfigurimi real
 
@@ -44,11 +44,13 @@
 - `npm audit --omit=dev` — 0 dobësi.
 - `npm audit` — 5 dobësi `high`, vetëm në zinxhirin e mjeteve të lint-it; rregullimi i propozuar kërkon downgrade të papajtueshëm të `eslint-config-next`.
 - Vercel deployment `dpl_FyVA9nVd6nJfvWw6WNdLGmZ8eEeg` — `Ready`, target `production`, funksionet në `fra1`.
+- `git push origin main` — commit-i final `a6347ab` u dërgua dhe nisi deployment-in production nga integrimi GitHub.
+- Issue i dorëzimit: https://github.com/arbenl/arbenl-mobile-assignments-2025/issues/433 — kontrolli automatik: **5/5**.
 
 ## Rreziqet dhe hapi i ardhshëm
 
 - Rreziku i mbetur është vetëm auditimi i varësive të zhvillimit; prodhimi ka zero dobësi të raportuara.
-- Hapi i ardhshëm: commit/push final, verifikimi i deployment-it nga Git dhe dorëzimi pa dublikatë në Issue të profesorit.
+- Nuk ka hap të detyrueshëm të pambyllur për dorëzimin e Javës 4.
 
 ## Rishikimi final
 
