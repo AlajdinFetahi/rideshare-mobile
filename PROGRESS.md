@@ -10,7 +10,7 @@
 - [x] Testet e njësive dhe komponentëve të serverit.
 - [ ] Krijimi/lidhja e Neon dhe Vercel; mungojnë sesionet e autentifikuara.
 - [ ] Provat manuale kundër databazës reale dhe në gjerësi 375 px.
-- [ ] Commit dhe push pas verifikimit përfundimtar.
+- [x] Commit dhe push pas verifikimit përfundimtar.
 - [ ] Issue i dorëzimit; GitHub CLI nuk është i autentifikuar.
 
 ## Vendimet
@@ -34,6 +34,7 @@
 - Prova HTTP pa `DATABASE_URL` — status 200, mesazhi i sigurt u shfaq dhe emri i variablës nuk u ekspozua.
 - `npm audit --omit=dev` — 0 dobësi prodhimi.
 - `npm audit` — 5 dobësi high vetëm në mjetet e lint-it; rregullimi i propozuar kërkon downgrade të papajtueshëm të `eslint-config-next`.
+- `git push origin main` — commit-i i implementimit `6956882` u dërgua me sukses.
 
 ## Rreziqet dhe hapi i ardhshëm
 
