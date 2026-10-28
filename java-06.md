@@ -26,27 +26,27 @@ Navigimi real ose refresh i `/` pa rrjet merr dokumentin e ruajtur offline. Work
 
 ## Prova 1 – PWA online
 
-**Hapat:** U kontrolluan HTTP `/manifest.webmanifest`, `/api/udhetimet`, `/offline.html`, `/sw.js` dhe përmasat binare PNG. Në Chrome u hap aplikacioni, pastaj lexuesi; në DevTools → Application u kontrolluan Service workers dhe Cache storage.
+Hapat: U kontrolluan HTTP `/manifest.webmanifest`, `/api/udhetimet`, `/offline.html`, `/sw.js` dhe përmasat binare PNG. Në Chrome u hap aplikacioni, pastaj lexuesi; në DevTools → Application u kontrolluan Service workers dhe Cache storage.
 
-**Pritja:** Manifest i saktë, ikona 192×192/512×512, worker aktiv, tri udhëtime publike, kopja në `rideshare-public-v1`, tri karta dhe timestamp.
+Pritja: Manifest i saktë, ikona 192×192/512×512, worker aktiv, tri udhëtime publike, kopja në `rideshare-public-v1`, tri karta dhe timestamp.
 
-**Rezultati real: PASS.** Rrugët kthyen HTTP 200. API-ja ktheu tri udhëtime, vetëm gjashtë fushat e kërkuara dhe `Cache-Control: no-store`. PNG-të kishin përmasat e kërkuara. DevTools shfaqi `/sw.js` si “activated and is running”; cache-i përmbante saktësisht katër hyrjet e lartpërmendura. Lexuesi shfaqi tri kartat me burim `network` dhe ruajtjen e fundit `28 tetor 2026, 12:12:13` sipas orës së shfaqur në Chrome.
+Rezultati real: PASS. Rrugët kthyen HTTP 200. API-ja ktheu tri udhëtime, vetëm gjashtë fushat e kërkuara dhe `Cache-Control: no-store`. PNG-të kishin përmasat e kërkuara. DevTools shfaqi `/sw.js` si “activated and is running”; cache-i përmbante saktësisht katër hyrjet e lartpërmendura. Lexuesi shfaqi tri kartat me burim `network` dhe ruajtjen e fundit `28 tetor 2026, 12:12:13` sipas orës së shfaqur në Chrome.
 
 ## Prova 2 – Offline pas refresh
 
-**Hapat:** Pas mbushjes së cache-it, në Chrome DevTools → Network u zgjodh `Offline`. U hap adresa `http://localhost:3000/` dhe u krye refresh real me F5.
+Hapat: Pas mbushjes së cache-it, në Chrome DevTools → Network u zgjodh `Offline`. U hap adresa `http://localhost:3000/` dhe u krye refresh real me F5.
 
-**Pritja:** `/` shfaq lexuesin standalone me tri karta nga cache, timestamp-in, paralajmërimin dhe rezervime të çaktivizuara.
+Pritja: `/` shfaq lexuesin standalone me tri karta nga cache, timestamp-in, paralajmërimin dhe rezervime të çaktivizuara.
 
-**Rezultati real: PASS.** Edhe pas F5, `/` shfaqi dokumentin “RideShare AAB – Lexim offline”, burimin `cache`, të njëjtën kohë ruajtjeje `12:12:13` dhe orët `08:00`, `08:15`, `07:45`. Tri kartat ishin të pranishme dhe tre butonat “Kërko vend” disabled. Paralajmërimi për të dhëna të vjetra ishte i dukshëm. Network tregoi kërkesat reale të rrjetit të dështuara dhe përgjigjet e dokumentit/API-së të shërbyera nga ServiceWorker.
+Rezultati real: PASS. Edhe pas F5, `/` shfaqi dokumentin “RideShare AAB – Lexim offline”, burimin `cache`, të njëjtën kohë ruajtjeje `12:12:13` dhe orët `08:00`, `08:15`, `07:45`. Tri kartat ishin të pranishme dhe tre butonat “Kërko vend” disabled. Paralajmërimi për të dhëna të vjetra ishte i dukshëm. Network tregoi kërkesat reale të rrjetit të dështuara dhe përgjigjet e dokumentit/API-së të shërbyera nga ServiceWorker.
 
 ## Prova 3 – Rikthimi online
 
-**Hapat:** Ndërsa Chrome ishte Offline, në Neon u ekzekutua `UPDATE udhetimet SET ora = '08:25' WHERE id = '2' RETURNING id, ora`. U kontrollua që kopja offline ende tregonte `08:15`. Network u rikthye në `No throttling` dhe u klikua “Rifresko listën”. Pastaj në Neon u ekzekutua `UPDATE udhetimet SET ora = '08:15' WHERE id = '2' RETURNING id, ora` dhe lista u rifreskua sërish.
+Hapat: Ndërsa Chrome ishte Offline, në Neon u ekzekutua `UPDATE udhetimet SET ora = '08:25' WHERE id = '2' RETURNING id, ora`. U kontrollua që kopja offline ende tregonte `08:15`. Network u rikthye në `No throttling` dhe u klikua “Rifresko listën”. Pastaj në Neon u ekzekutua `UPDATE udhetimet SET ora = '08:15' WHERE id = '2' RETURNING id, ora` dhe lista u rifreskua sërish.
 
-**Pritja:** Kopja offline mbetet e pandryshuar; rifreskimi online sjell `08:25` me burim `network` dhe timestamp të ri. Në fund Neon dhe kopja lokale rikthehen në `08:15`.
+Pritja: Kopja offline mbetet e pandryshuar; rifreskimi online sjell `08:25` me burim `network` dhe timestamp të ri. Në fund Neon dhe kopja lokale rikthehen në `08:15`.
 
-**Rezultati real: PASS.** Neon konfirmoi përkohësisht `08:25`, ndërsa lexuesi offline ruajti `08:15` dhe timestamp-in fillestar. Pas rikthimit të rrjetit dhe klikimit, lexuesi shfaqi `08:25`, burimin `network` dhe timestamp `12:15:08`. SQL-ja e rikthimit konfirmoi `08:15`; rifreskimi final shfaqi `08:15`, burimin `network` dhe timestamp `12:15:28`. Cache Storage konfirmoi hyrjen e API-së të përditësuar në `12:15:28`. Nuk u ndryshuan rreshta ose fusha të tjera në Neon.
+Rezultati real: PASS. Neon konfirmoi përkohësisht `08:25`, ndërsa lexuesi offline ruajti `08:15` dhe timestamp-in fillestar. Pas rikthimit të rrjetit dhe klikimit, lexuesi shfaqi `08:25`, burimin `network` dhe timestamp `12:15:08`. SQL-ja e rikthimit konfirmoi `08:15`; rifreskimi final shfaqi `08:15`, burimin `network` dhe timestamp `12:15:28`. Cache Storage konfirmoi hyrjen e API-së të përditësuar në `12:15:28`. Nuk u ndryshuan rreshta ose fusha të tjera në Neon.
 
 ## Përfundimi
 
