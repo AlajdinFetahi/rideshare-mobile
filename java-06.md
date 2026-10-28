@@ -24,7 +24,11 @@ Navigimi real ose refresh i `/` pa rrjet merr dokumentin e ruajtur offline. Work
 
 `public/offline.html` është HTML standalone me CSS dhe JavaScript pa Next.js runtime. Shfaq kartat, orën, vendet, vendtakimin, burimin dhe kohën e ruajtjes. Të dhënat dinamike vendosen me `textContent`. Ka paralajmërim për vjetërsinë e kopjes, lidhje kthimi dhe butonin “Rifresko listën”. Çdo “Kërko vend” është disabled; asnjë rezervim nuk kryhet ose pretendohet.
 
-## Prova 1 – PWA online
+## Tri provat
+
+### Prova 1
+
+PWA online.
 
 Hapat: U kontrolluan HTTP `/manifest.webmanifest`, `/api/udhetimet`, `/offline.html`, `/sw.js` dhe përmasat binare PNG. Në Chrome u hap aplikacioni, pastaj lexuesi; në DevTools → Application u kontrolluan Service workers dhe Cache storage.
 
@@ -32,7 +36,9 @@ Pritja: Manifest i saktë, ikona 192×192/512×512, worker aktiv, tri udhëtime 
 
 Rezultati real: PASS. Rrugët kthyen HTTP 200. API-ja ktheu tri udhëtime, vetëm gjashtë fushat e kërkuara dhe `Cache-Control: no-store`. PNG-të kishin përmasat e kërkuara. DevTools shfaqi `/sw.js` si “activated and is running”; cache-i përmbante saktësisht katër hyrjet e lartpërmendura. Lexuesi shfaqi tri kartat me burim `network` dhe ruajtjen e fundit `28 tetor 2026, 12:12:13` sipas orës së shfaqur në Chrome.
 
-## Prova 2 – Offline pas refresh
+### Prova 2
+
+Offline pas refresh.
 
 Hapat: Pas mbushjes së cache-it, në Chrome DevTools → Network u zgjodh `Offline`. U hap adresa `http://localhost:3000/` dhe u krye refresh real me F5.
 
@@ -40,7 +46,9 @@ Pritja: `/` shfaq lexuesin standalone me tri karta nga cache, timestamp-in, para
 
 Rezultati real: PASS. Edhe pas F5, `/` shfaqi dokumentin “RideShare AAB – Lexim offline”, burimin `cache`, të njëjtën kohë ruajtjeje `12:12:13` dhe orët `08:00`, `08:15`, `07:45`. Tri kartat ishin të pranishme dhe tre butonat “Kërko vend” disabled. Paralajmërimi për të dhëna të vjetra ishte i dukshëm. Network tregoi kërkesat reale të rrjetit të dështuara dhe përgjigjet e dokumentit/API-së të shërbyera nga ServiceWorker.
 
-## Prova 3 – Rikthimi online
+### Prova 3
+
+Rikthimi online.
 
 Hapat: Ndërsa Chrome ishte Offline, në Neon u ekzekutua `UPDATE udhetimet SET ora = '08:25' WHERE id = '2' RETURNING id, ora`. U kontrollua që kopja offline ende tregonte `08:15`. Network u rikthye në `No throttling` dhe u klikua “Rifresko listën”. Pastaj në Neon u ekzekutua `UPDATE udhetimet SET ora = '08:15' WHERE id = '2' RETURNING id, ora` dhe lista u rifreskua sërish.
 
