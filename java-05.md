@@ -10,9 +10,23 @@ Server action merr identitetin nga `getServerSession`. UPDATE i parametrizuar ko
 
 ## Rezultatet reale – 28 tetor 2026
 
-1. **Session: PASS.** Hyrje reale me GitHub në Chrome; përdoruesi i ri u shfaq fillimisht `udhetar`, me ID `189488131`. Pas caktimit administrativ u shfaq `shofer`. Refresh me F5 ruajti sesionin. “Dil” e largoi sesionin dhe paneli shfaqi “Mungon sesioni. Hyr me GitHub.”.
-2. **Authorized update: PASS.** Formulari real i panelit ndryshoi ID 2 në `08:25`; u shfaq mesazhi i suksesit. SELECT në Neon konfirmoi `08:25`; GET `/` dhe `/udhetimi/2` kthyen HTTP 200 dhe përmbanin `08:25`. Më pas server action riktheu `08:15`; Neon, lista dhe detajet konfirmuan rikthimin.
-3. **Unauthorized update: PASS.** U dërgua POST direkt te server action për ID 1 me `08:25`, duke përdorur një JWT kontrolli të nënshkruar lokalisht për identitetin e shoferit real `189488131` (jo cookie e nxjerrë nga Chrome). Përgjigjja ishte HTTP 303 drejt `/panel?rezultati=refuzim`. SELECT në Neon konfirmoi që ID 1 mbeti `08:00`.
+### Prova 1 – Sesioni
+
+Hapat: Në Chrome u hap `/panel`, u krye hyrja reale me GitHub, u rifreskua faqja me F5 dhe u përdor butoni “Dil”.
+
+Rezultati real: **PASS.** Përdoruesi i ri u shfaq fillimisht `udhetar`, me GitHub ID `189488131`; pas caktimit administrativ u shfaq `shofer`. Rifreskimi ruajti sesionin. Dalja e largoi sesionin dhe paneli shfaqi “Mungon sesioni. Hyr me GitHub.”.
+
+### Prova 2 – Ndryshimi i autorizuar
+
+Hapat: Shoferi pronar ndryshoi orën e ID 2 në `08:25` nga formulari real i panelit. U kontrolluan Neon, lista `/` dhe detajet `/udhetimi/2`; pastaj ora u rikthye në `08:15` përmes server action.
+
+Rezultati real: **PASS.** Paneli shfaqi mesazhin e suksesit. SELECT në Neon konfirmoi `08:25`; lista dhe detajet kthyen HTTP 200 dhe përmbanin `08:25`. Pas rikthimit, Neon, lista dhe detajet konfirmuan `08:15`.
+
+### Prova 3 – Ndryshimi i paautorizuar
+
+Hapat: U dërgua POST direkt te server action për ndryshimin e ID 1 në `08:25`, me një JWT kontrolli të nënshkruar lokalisht për identitetin e shoferit të ID 2, `189488131` (jo cookie e nxjerrë nga Chrome). Më pas u kontrollua ora e ID 1 me SELECT në Neon.
+
+Rezultati real: **PASS.** Serveri e refuzoi ndryshimin me HTTP 303 drejt `/panel?rezultati=refuzim`. Ora e ID 1 mbeti `08:00` në Neon.
 
 Kontrollet minimale shtesë: `npx tsc --noEmit`, `npm run build` dhe `npm run lint` përfunduan pa gabime. Lista, detajet 1/2 dhe paneli kthyen HTTP 200. Neon ruan tri udhëtimet: ID 1 `08:00`, ID 2 `08:15`, ID 3 `07:45`. Nuk u krijua framework testimi dhe nuk u implementuan sfida opsionale.
 
