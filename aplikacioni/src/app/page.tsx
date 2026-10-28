@@ -24,6 +24,7 @@ export default async function Home() {
   return (
     <main>
       <h1>RideShare · Udhëtimet për AAB</h1>
+      <Link href="/panel">Hyr / Paneli im</Link>
       <p>Burimi: Neon · të dhëna fiktive për ushtrime</p>
       {udhetimet.length === 0 ? (
         <p>Nuk ka udhëtime për momentin.</p>
