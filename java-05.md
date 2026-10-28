@@ -16,6 +16,6 @@ Server action merr identitetin nga `getServerSession`. UPDATE i parametrizuar ko
 
 Kontrollet minimale shtesë: `npx tsc --noEmit`, `npm run build` dhe `npm run lint` përfunduan pa gabime. Lista, detajet 1/2 dhe paneli kthyen HTTP 200. Neon ruan tri udhëtimet: ID 1 `08:00`, ID 2 `08:15`, ID 3 `07:45`. Nuk u krijua framework testimi dhe nuk u implementuan sfida opsionale.
 
-## Kufizimi i mbetur
+## Gjendja përfundimtare
 
-Gjatë kontrollit të shfletuesit një dalje e mjetit shfaqi pa dashje Client Secret. Ai nuk u shtua në Git. Përdoruesi gjeneroi një sekret të ri; ai u ruajt nga clipboard-i vetëm në `.env.local`, u konfirmua që ndryshon nga sekreti i mëparshëm dhe u verifikua hyrja reale me të: paneli shfaqi sërish shoferin me GitHub ID `189488131`. Mbetet çaktivizimi i sekretit të vjetër në GitHub nga përdoruesi. Nuk janë kryer deployment shtesë ose krijim i GitHub Issue.
+Gjatë kontrollit të shfletuesit një dalje e mjetit shfaqi pa dashje Client Secret. Ai nuk u shtua në Git. Përdoruesi gjeneroi një sekret të ri; ai u ruajt nga clipboard-i vetëm në `.env.local`, u konfirmua që ndryshon nga sekreti i mëparshëm dhe u verifikua hyrja reale me të: paneli shfaqi sërish shoferin me GitHub ID `189488131`. Përdoruesi konfirmoi fshirjen e sekretit të vjetër në GitHub. Nuk mbeten pengesa të njohura për dorëzimin e Javës 5. Nuk janë kryer deployment shtesë ose krijim i GitHub Issue.
