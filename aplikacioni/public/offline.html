@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="sq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#be3455">
+  <title>RideShare AAB – Lexim offline</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#0b1220;color:#edf2fc;font:16px/1.6 system-ui,sans-serif}main{max-width:720px;margin:auto;padding:24px}a{color:#89ddff}h1,h2,p{overflow-wrap:anywhere}h1{line-height:1.2}#trips{display:grid;gap:16px;margin-top:24px}article{padding:18px;border:1px solid #8090aa;border-radius:12px;background:#111a2b}h2{margin:0 0 8px;font-size:1.25rem}article p{margin:0;color:#c3ccdc}button{min-height:44px;padding:8px 14px;margin-top:12px;border:0;border-radius:8px;background:#3548d4;color:white;font:inherit;cursor:pointer}button:disabled{background:#39455b;color:#e4eaf4;cursor:default}button:focus-visible,a:focus-visible{outline:3px solid #89ddff;outline-offset:3px}
+  </style>
+</head>
+<body>
+<main>
+  <a href="/">← Kthehu te aplikacioni</a>
+  <h1>RideShare AAB</h1>
+  <p>Vetëm lexim. Të dhënat mund të jenë të vjetra; nuk konfirmohen rezervime.</p>
+  <p id="source">Burimi: —</p>
+  <p id="saved">Ruajtja e fundit: —</p>
+  <button id="refresh" type="button">Rifresko listën</button>
+  <p id="status" role="status"></p>
+  <div id="trips"></div>
+</main>
+<script>
+  const list = document.getElementById("trips");
+  const status = document.getElementById("status");
+  const refresh = document.getElementById("refresh");
+  async function load() {
+    refresh.disabled = true;
+    status.textContent = "Duke lexuar listën…";
+    try {
+      const response = await fetch("/api/udhetimet", { cache: "no-store", credentials: "omit" });
+      if (!response.ok) throw new Error();
+      const { trips } = await response.json();
+      if (!Array.isArray(trips)) throw new Error();
+      const cards = trips.map((trip) => {
+        const card = document.createElement("article");
+        const title = document.createElement("h2");
+        title.textContent = trip.nisja + " – " + trip.destinacioni;
+        card.append(title);
+        for (const text of ["Ora: " + trip.ora, "Vendtakimi: " + trip.vendtakimi, "Vende të lira: " + trip.vende]) {
+          const p = document.createElement("p");
+          p.textContent = text;
+          card.append(p);
+        }
+        const button = document.createElement("button");
+        button.textContent = "Kërko vend";
+        button.disabled = true;
+        card.append(button);
+        return card;
+      });
+      list.replaceChildren(...cards);
+      document.getElementById("source").textContent = "Burimi: " + (response.headers.get("x-rideshare-source") || "network");
+      const saved = response.headers.get("x-rideshare-saved-at");
+      document.getElementById("saved").textContent = "Ruajtja e fundit: " + (saved ? new Date(saved).toLocaleString("sq-AL") : "Kopja lokale ende nuk është ruajtur.");
+      status.textContent = "Lista u lexua. Rezervimet janë të çaktivizuara.";
+    } catch {
+      status.textContent = list.children.length ? "Lista nuk u rifreskua; kopja e shfaqur mund të jetë e vjetër." : "Nuk ka kopje të disponueshme. Hape aplikacionin një herë me internet.";
+    } finally {
+      refresh.disabled = false;
+    }
+  }
+  refresh.addEventListener("click", load);
+  load();
+</script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Pwa } from "@/components/Pwa";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="sq" className="dark" style={{ colorScheme: "dark" }}>
-      <body>{children}</body>
+      <body><Pwa />{children}</body>
     </html>
   );
 }
