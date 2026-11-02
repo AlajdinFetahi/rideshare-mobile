@@ -39,7 +39,7 @@ export default async function Detajet({
       <p>Vende të lira: {udhetim.vende}</p>
       {udhetim.vende > 0 ? (
         <Link className="action" href={`/udhetimi/${id}/kerkesa`}>
-          Kërko vend
+          Kërko vend · simulim, pa rezervim real
         </Link>
       ) : (
         <button className="action" disabled>
