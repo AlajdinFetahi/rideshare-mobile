@@ -98,6 +98,7 @@ h1 {
 }
 
 .action:focus-visible,
+input:focus-visible,
 a:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 3px;
@@ -107,6 +108,47 @@ a:focus-visible {
   background: var(--disabled);
   color: #e4eaf4;
   cursor: default;
+}
+
+.meeting-point {
+  margin: 24px 0;
+}
+
+.meeting-point > p {
+  margin-top: 12px;
+}
+
+.meeting-point form {
+  margin-top: 20px;
+}
+
+.meeting-point input {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--text);
+  font: inherit;
+}
+
+.meeting-point input::placeholder {
+  color: var(--muted);
+}
+
+.meeting-point [role="alert"] {
+  margin-top: 8px;
+  color: var(--text);
+}
+
+.meeting-result {
+  margin-top: 24px;
+  padding: 12px;
+  border-left: 3px solid var(--focus);
+  background: var(--background);
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 480px) {

@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export function Pwa() {
+  const pathname = usePathname();
   useEffect(() => {
+    if (pathname === "/java-08-test") return;
     if (!("serviceWorker" in navigator)) return;
     let filled = false;
     let disposed = false;
@@ -20,7 +23,7 @@ export function Pwa() {
       disposed = true;
       navigator.serviceWorker.removeEventListener("controllerchange", fill);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <aside style={{ maxWidth: 720, margin: "auto", padding: "12px 24px" }}>

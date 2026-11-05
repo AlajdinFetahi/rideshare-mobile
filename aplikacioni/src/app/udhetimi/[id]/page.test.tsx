@@ -40,6 +40,9 @@ describe("Detajet", () => {
 
     expect(html).toContain("Fushë Kosovë – AAB");
     expect(html).toContain("Ora: 08:15");
+    expect(html).toContain('data-testid="meeting-input"');
+    expect(html).toContain('data-testid="location-status" data-state="idle"');
+    expect(html).toContain("Ende pa zgjedhje");
   });
 
   test("paraqet gabim të sigurt kur databaza nuk arrihet", async () => {
