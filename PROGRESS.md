@@ -95,3 +95,9 @@
 - Production në portën e përkohshme 3001 me `DATABASE_URL` të pavlefshëm dhe pa konfigurim auth: `/java-08-test` HTTP 200 me formularin. Procesi i kësaj prove u mbyll; serveri LAN në 3000 mbetet aktiv.
 - Mbeten GPS-i real, demonstrimi me kolegun dhe raportet zyrtare pas dorëzimit manual. Nuk pretendohet rezultat zyrtar 6/6 ose 8/8.
 - Hapi i ardhshëm: kontrolli final i skedarëve të përzgjedhur, commit/push i kërkuar dhe verifikimi i remote-it e publikimit ekzistues HTTPS.
+
+### Push dhe kërkesa shtesë
+
+- Commit `ab06e56de5f432240ee26a8c92fe9226be35a3de`, `Java 8 - Meeting Point and Geolocation`: push në main SUCCESS; SHA lokale dhe remote identike; komponenti, faqja, manifesti, raporti dhe package/lockfile u verifikuan përmes GitHub API.
+- Përdoruesi kërkoi butona të gjelbër: u ndryshuan vetëm tokenët primary/hover, `#15803d`/`#166534`, me tekst të bardhë. Konfirmimi manual, ngjyra në browser dhe pamjet 375/1440 px: PASS; pamjet u hapën. Lint dhe build u ekzekutuan përsëri: PASS.
+- Vercel fillimisht ktheu 403 për ekipin ekzistues; përdoruesi autorizoi qasjen. U konfirmuan projekti ekzistues, domeni production dhe commit-i i mëparshëm. Hapi vijues është publikimi i commit-it të përditësuar për HTTPS dhe prova reale GPS nga telefoni, pa ndryshime në Neon.

@@ -33,6 +33,7 @@ Dy gjendje `useState`, `draft` dhe `confirmed`, ndajnë tekstin gjatë shkrimit 
 - `aplikacioni/src/app/java-08-test/page.tsx`: udhëtimi fiktiv i Dritonit, pa login dhe pa databazë.
 - `mobile-week08.json`: kontrata zyrtare, versioni 1, rruga `/java-08-test`.
 - `aplikacioni/src/app/globals.css`: stili i formularit sipas RideShare ekzistues.
+- Sipas kërkesës shtesë të përdoruesit, butonat përdorin të gjelbrën `#15803d`, hover `#166534` dhe tekst të bardhë; pamjet 375/1440 px u rikapën dhe u inspektuan, lint/build kaluan sërish.
 - `aplikacioni/src/components/Pwa.tsx`: ndalimi i leximit automatik të listës vetëm në faqen e testit.
 - `aplikacioni/next.config.ts`: lejimi i IPv4 aktual të adapterit Windows `Wi-Fi` për burimet e zhvillimit, pa wildcard dhe pa IP personale të shkruar në kod. Nëse ndryshon rrjeti, riniset serveri.
 - `aplikacioni/src/app/java-08-test/page.test.tsx` dhe testi ekzistues i detajeve: kontrata unike e DOM-it dhe integrimi.
