@@ -54,6 +54,7 @@ Dy gjendje `useState`, `draft` dhe `confirmed`, ndajnë tekstin gjatë shkrimit 
 | Pamjet 320, 375, 768 dhe 1440 px | U kapën dhe u inspektuan; pa overflow horizontal |
 | HTTP localhost dhe IP-ja aktuale LAN | HTTP 200; serveri dëgjon në `0.0.0.0:3000` |
 | `window.isSecureContext` | `true` në localhost; `false` në HTTP LAN |
+| Publikimi HTTPS production | READY, HTTP 200; `isSecureContext=true`; 10 skenarët e browser-it kaluan me geolocation fiktiv |
 
 Testet e browser-it u ekzekutuan me Playwright/Chromium ekzistues të mjedisit, pa shtuar varësi në projekt. Evidencat lokale të provës ruhen jashtë repository-t në `%TEMP%/rideshare-week08/`, përfshirë `browser-results.json` dhe pamjet. Këto nuk janë raporte të GitHub Actions dhe nuk provojnë GPS real.
 
@@ -62,9 +63,11 @@ Nisja nga `aplikacioni/`: `npm run dev -- -H 0.0.0.0 -p 3000`. Nga telefoni për
 ## Çfarë mbetet për përmirësim
 Vendtakimi është vetëm gjendje e komponentit: humbet pas rifreskimit ose largimit nga faqja dhe nuk i dërgohet shoferit. Nuk ka ruajtje në backend, harta ose përkthim koordinatash në emër vendi.
 
-HTTP me IP LAN hap UI-në, por nuk është secure context për GPS. Nuk u krijuan certifikata të pabesueshme ose flamuj që çaktivizojnë sigurinë. Ekziston publikimi HTTPS i projektit në https://rideshare-mobile-sage.vercel.app; versioni i Javës 8 duhet të verifikohet pas publikimit automatik nga push-i. Për GPS real, hape publikimin HTTPS në telefon, kliko butonin dhe provo lejen; mos publiko koordinata.
+HTTP me IP LAN hap UI-në në laptop, por nuk është secure context për GPS. Nuk u krijuan certifikata të pabesueshme ose flamuj që çaktivizojnë sigurinë. Pas autorizimit nga përdoruesi, u publikua versioni me butona të gjelbër në projektin ekzistues Vercel: https://rideshare-mobile-sage.vercel.app/java-08-test. Deployment `dpl_CgomZLcvnEwgMXM7FWsXFvULTgho`, commit i kodit `4d435602231a694f2f420a539a744bae80fb5648`, production, READY. Përgjigjja HTTPS ishte HTTP 200 dhe browser-i konfirmoi `isSecureContext=true`. Dhjetë skenarët e browser-it kaluan edhe në HTTPS, me geolocation fiktiv, pa prova GPS reale. Pamja production u hap dhe u inspektua. Për GPS real, hape këtë lidhje në telefon, kliko butonin dhe provo lejen; mos publiko koordinata.
 
-Demonstrimi me kolegun nuk është kryer. Përdoruesi konfirmoi gjatë sesionit se faqja hapet në telefon në të njëjtin Wi-Fi dhe vendtakimi konfirmohet. Ai raportoi se butoni i vendndodhjes nuk merr GPS në HTTP LAN; `isSecureContext=false` e shpjegon kufizimin. GPS-i real mbetet i paverifikuar dhe duhet provuar përmes HTTPS.
+Demonstrimi me kolegun nuk është kryer. Fillimisht përdoruesi konfirmoi hapjen dhe vendtakimin manual në telefon, por më pas raportoi se të dyja adresat HTTP LAN nuk hapen në telefon, ndërsa hapen në PC. Prandaj rezultati përfundimtar i qasjes LAN nga telefoni është **NOT VERIFIED**. Nga laptopi u rikontrolluan IPv4 i adapterit real Wi-Fi, listener `0.0.0.0:3000`, HTTP 200 në të dyja adresat dhe firewall-i pa bllokim aktiv; serveri mbetet në proces të veçantë. Nuk u gjet VPN aktive. Izolimi i klientëve të rrjetit ose subnet-i i telefonit mbeten të paverifikuar; u kërkua IPv4-ja e telefonit për diagnozë. Hapi praktik nëse Wi-Fi izolon klientët është përdorimi i një rrjeti privat/hotspot të përbashkët dhe rizbulimi i IP-së së laptopit.
+
+Përdoruesi raportoi se butoni i vendndodhjes nuk merr GPS në HTTP LAN; `isSecureContext=false` e shpjegon kufizimin. GPS-i real mbetet i paverifikuar dhe duhet provuar përmes HTTPS së publikuar.
 
 Përdoruesi raportoi edhe “1 issue” në development. Logu tregon mospërputhje hydration vetëm për atributet `__gcruniqueid` të shtuara në formë/input jashtë kodit të komponentit. Browser-i i pastër i testeve nuk e riprodhoi këtë paralajmërim. Nuk u fsheh gabimi me `suppressHydrationWarning` dhe nuk u ndryshua funksionaliteti për atribute të browser-it.
 

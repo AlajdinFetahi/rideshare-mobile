@@ -101,3 +101,13 @@
 - Commit `ab06e56de5f432240ee26a8c92fe9226be35a3de`, `Java 8 - Meeting Point and Geolocation`: push në main SUCCESS; SHA lokale dhe remote identike; komponenti, faqja, manifesti, raporti dhe package/lockfile u verifikuan përmes GitHub API.
 - Përdoruesi kërkoi butona të gjelbër: u ndryshuan vetëm tokenët primary/hover, `#15803d`/`#166534`, me tekst të bardhë. Konfirmimi manual, ngjyra në browser dhe pamjet 375/1440 px: PASS; pamjet u hapën. Lint dhe build u ekzekutuan përsëri: PASS.
 - Vercel fillimisht ktheu 403 për ekipin ekzistues; përdoruesi autorizoi qasjen. U konfirmuan projekti ekzistues, domeni production dhe commit-i i mëparshëm. Hapi vijues është publikimi i commit-it të përditësuar për HTTPS dhe prova reale GPS nga telefoni, pa ndryshime në Neon.
+
+### HTTPS dhe gjendja përfundimtare e rrjetit
+
+- Butonat e gjelbër u bënë push me `4d435602231a694f2f420a539a744bae80fb5648`. Git mbeti i pastër.
+- Kërkesat Vercel për krijim deployment-i kthyen timeout nga connector-i. U kontrollua gjendja remote pas timeout-it: deployment-i ekzistonte dhe ishte READY, prandaj nuk u krye publikim alternativ nga skedarët lokalë.
+- Deployment `dpl_CgomZLcvnEwgMXM7FWsXFvULTgho`, projekti ekzistues `rideshare-mobile`, target production, rajoni fra1, commit kodi `4d435602231a694f2f420a539a744bae80fb5648`; domeni https://rideshare-mobile-sage.vercel.app u lidh me sukses.
+- `/java-08-test` në domenin production: HTTP 200; `isSecureContext=true`; 10 skenarë browser me mock geolocation: PASS. Evidencat në `%TEMP%/rideshare-week08/https/results.json`; pamja `production-verified.png` u hap dhe u inspektua, butonat të gjelbër dhe pa tregues development-i.
+- Përdoruesi raportoi më pas dështim të hapjes HTTP LAN nga telefoni edhe pse PC përgjigjet. Verifikimi fizik LAN tani shënohet NOT VERIFIED, duke korrigjuar raportimin fillestar. Rikontrolli: IPv4 aktual Wi-Fi, `0.0.0.0:3000`, HTTP 200 te localhost/LAN/test, firewall Disabled në ActiveStore, pa produkt tjetër firewall të regjistruar dhe pa VPN aktive. Nuk u ndryshua siguria e Windows.
+- TCP tregoi vetëm lidhje nga laptopi; nuk ka provë të një lidhjeje të telefonit. Subnet-i i telefonit/client isolation mbeten të paverifikuar; u kërkua IPv4-ja e telefonit. U dha lidhja HTTPS funksionale për testin GPS, pa kërkuar koordinata.
+- Mbeten prova reale GPS në telefon, diagnoza e rrjetit me të dhënat e telefonit, demonstrimi me kolegun dhe dorëzimi manual. Nuk u krijua Issue te profesori dhe nuk u krijua workflow.
