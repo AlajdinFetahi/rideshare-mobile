@@ -111,3 +111,18 @@
 - Përdoruesi raportoi më pas dështim të hapjes HTTP LAN nga telefoni edhe pse PC përgjigjet. Verifikimi fizik LAN tani shënohet NOT VERIFIED, duke korrigjuar raportimin fillestar. Rikontrolli: IPv4 aktual Wi-Fi, `0.0.0.0:3000`, HTTP 200 te localhost/LAN/test, firewall Disabled në ActiveStore, pa produkt tjetër firewall të regjistruar dhe pa VPN aktive. Nuk u ndryshua siguria e Windows.
 - TCP tregoi vetëm lidhje nga laptopi; nuk ka provë të një lidhjeje të telefonit. Subnet-i i telefonit/client isolation mbeten të paverifikuar; u kërkua IPv4-ja e telefonit. U dha lidhja HTTPS funksionale për testin GPS, pa kërkuar koordinata.
 - Mbeten prova reale GPS në telefon, diagnoza e rrjetit me të dhënat e telefonit, demonstrimi me kolegun dhe dorëzimi manual. Nuk u krijua Issue te profesori dhe nuk u krijua workflow.
+
+# Java 9 — Preferimet dhe ndërfaqja optimiste
+
+- Kërkesa: preferime personale në Neon, pending i dallueshëm nga suksesi, rollback/retry, idempotencë, raport dhe commit/push në main. Pa workflow, skill, subagent ose varësi të reja për këtë detyrë.
+- `F:\Projects\rideshare-mobile` nuk ekziston në mjedis. U përdor kopja ekzistuese në Desktop: remote `AlajdinFetahi/rideshare-mobile`, main e pastër dhe SHA fillestare identike me remote `4b075f3`.
+- U lexuan faqja zyrtare Java 9, ushtrimet dhe modeli i raportit. U ruajtën NextAuth, klienti Neon, stili dhe funksionet e Javëve 1–8.
+- Migrimi `aplikacioni/schema-java09.sql`: APPLIED; foreign keys reale dhe `UNIQUE(user_id, ride_id)` të verifikuara në PostgreSQL. Nuk u ndryshuan të dhënat ekzistuese të udhëtimeve/profileve.
+- U shtuan leximi/INSERT i parametrizuar, Server Action me identitet nga sesioni dhe komponenti `Preferimi`; faqja dinamike lexon gjendjen personale nga serveri. Pa localStorage/sessionStorage, rezervime ose heqje preferimi.
+- `npm test`: 30/30 PASS në 8 skedarë. `npm run lint`, `npx --no-install tsc --noEmit`, `npm run build`: PASS.
+- Tri provat Chromium + Neon: PASS me sesion testimi NextAuth të nënshkruar për profilin ekzistues të autorizuar. Suksesi/refresh/rihapja, refuzimi përpara INSERT me rollback dhe retry, 15 klikime dhe 5 replays të njëkohshme pa kopje u verifikuan. Kodi i refuzimit lokal u hoq para build-it.
+- Fillimisht automatizimi klikoi përpara hydration; u korrigjua pritja e testit. Këto tentativa nuk shkruan preferime. Provat përfundimtare shtuan saktësisht tre preferime; rreshtat e udhëtimeve u krahasuan para/pas dhe mbetën identikë.
+- Production lokal: izolimi i dy profileve (3 kundrejt 0 preferimeve), refuzimi anonim dhe rrugët ekzistuese: PASS. Dhjetë skenarët Java 8 me geolocation fiktiv dhe kontrollet responsive/LAN kaluan.
+- Pamjet e Javës 9 në 320/390/768/1440 px u hapën dhe u inspektuan; pa overflow horizontal. Evidencat janë jashtë Git në `%TEMP%/rideshare-week09/`.
+- Laptopi: localhost dhe IP reale Wi-Fi përgjigjen HTTP 200; serveri dev mbetet në `0.0.0.0:3000`. Telefoni fizik, demonstrimi me kolegun dhe hyrja interaktive OAuth nga fillimi mbeten manuale; sesionet në server janë të testuara. Nuk u krijua Issue dhe nuk pretendohet 2/2 i botit.
+- Raporti `java-09.md` u plotësua sipas modelit. Hapi vijues: kontrolli final i ndryshimeve/sekreteve, commit/push dhe verifikimi i skedarëve online.
