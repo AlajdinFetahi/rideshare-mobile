@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { lexoPreferimet } from "@/lib/preferimet";
 import { Preferimi } from "@/components/Preferimi";
+import { Sinkronizimi } from "@/components/Sinkronizimi";
 import { Hyrja } from "@/components/Hyrja";
 
 export const dynamic = "force-dynamic";
@@ -48,12 +49,7 @@ export default async function Detajet({
   return (
     <main>
       <Link href="/">← Kthehu te lista</Link>
-      <h1>
-        {udhetim.nisja} – {udhetim.destinacioni}
-      </h1>
-      <p>Ora: {udhetim.ora}</p>
-      <p>Vendtakimi: {udhetim.vendtakimi}</p>
-      <p>Vende të lira: {udhetim.vende}</p>
+      <Sinkronizimi key={id} initialRide={udhetim} />
       {favorites && <Preferimi key={`${session?.user.githubId}:${id}`}
         rideId={id} initialSaved={favorites.saved} initialCount={favorites.count} />}
       {favoritesError && <p role="alert">Nuk u lexuan të preferuarat. Rifresko faqen.</p>}
@@ -62,15 +58,9 @@ export default async function Detajet({
         <Hyrja authenticated={false} />
       </>}
       <MeetingPoint />
-      {udhetim.vende > 0 ? (
-        <Link className="action" href={`/udhetimi/${id}/kerkesa`}>
-          Kërko vend · simulim, pa rezervim real
-        </Link>
-      ) : (
-        <button className="action" disabled>
-          Nuk ka vende të lira
-        </button>
-      )}
+      <Link className="action" href={`/udhetimi/${id}/kerkesa`}>
+        Kërkesa dhe gjendja e udhëtimit
+      </Link>
     </main>
   );
 }

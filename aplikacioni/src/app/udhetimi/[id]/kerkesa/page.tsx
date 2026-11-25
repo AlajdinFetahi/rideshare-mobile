@@ -1,3 +1,4 @@
+import { Sinkronizimi } from "@/components/Sinkronizimi";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { gjejUdhetimin } from "@/lib/udhetimet";
@@ -31,15 +32,7 @@ export default async function Kerkesa({
   return (
     <main>
       <Link href={`/udhetimi/${id}`}>← Kthehu te detajet</Link>
-      {udhetim.vende > 0 ? (
-        <>
-          <h1>Simulim: Në pritje</h1>
-          <p>Kërkesa për {udhetim.nisja} nuk është dërguar te shoferi.</p>
-          <p>Ruajtjen dhe konfirmimin real do t’i shtojmë më vonë.</p>
-        </>
-      ) : (
-        <h1>Nuk ka vende të lira.</h1>
-      )}
+      <Sinkronizimi key={id} initialRide={udhetim} />
     </main>
   );
 }

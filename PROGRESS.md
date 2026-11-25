@@ -1,5 +1,20 @@
 # Progresi — Java 4
 
+## Java 10 — 25.11.2026
+
+- Kërkesat: kërkesa reale Neon, pranimi atomik, autorizimi sipas sesionit/pronarit, polling 5 sekonda, offline/rilidhje, tri prova, raport, commit/push main. Pa redesign, dependenca të reja ose subagents.
+- Gjendja fillestare: main e pastër, remote i saktë, SHA lokale/remote `e73149ae66c984f676ea4bd4eb5bd2546ca0e9a0`. U lexuan udhëzimet/modeli zyrtar Java 10, autentikimi, skema dhe implementimi ekzistues.
+- `schema-java10.sql`: APPLIED në Neon ekzistues, me UNIQUE/FK/CHECK dhe funksion pranimi që kyç udhëtimin/kërkesën e ruan statusin/vendet atomikisht. Tentativa fillestare për SQL me shumë komanda në një prepared statement u refuzua pa ndryshime; zbatimi me dy statements në transaksion kaloi.
+- U shtuan biblioteka/endpoint-i i kërkesave dhe komponenti i përbashkët i sinkronizimit; u zëvendësua simulimi. Polling nuk mbivendos lexime; AbortController dhe kontrolli i përgjigjes aktive mbrojnë mutation-et. Offline ruan gjendjen e fundit dhe bllokon veprimet; online provon menjëherë serverin.
+- U riprodhua dhe u rregullua refuzimi fillestar POST në dev 0.0.0.0: krahasimi i origjinës përdor host-in real të kërkesës; u shtua test regresioni.
+- `npm test`: 36/36 PASS, 9 skedarë. `npm run lint`: PASS. `npm run build` me TypeScript: PASS.
+- Tri provat reale Edge/Neon: PASS me profile fiktive e sesione NextAuth të nënshkruara lokalisht në contexts të izoluara. Udhëtimet përfundimtare: `J10-1795628256007-1`, `J10-1795628256007-2`, `J10-1795628256007-race`. Detajet në `java-10.md` dhe `%TEMP%/rideshare-week10/results.json`.
+- Tetë pranime të përsëritura: vendet mbetën 1; 0 vende: HTTP 409; jo-pronari: HTTP 403; anonimi: HTTP 401; dy kërkesa konkurruese për një vend: vetëm një accepted. Përgjigjja e vjetër GET u injorua pas mutation-it. Asnjë polling pas largimit gjatë 5.5 sekondave.
+- Pamjet offline/rilidhje/shofer u hapën dhe u kontrolluan; gjerësitë 320/390/768/1440 pa overflow në browser. Rishikimi ishte lokal, jo i pavarur.
+- Serveri dev aktiv në 0.0.0.0:3000; localhost dhe Wi-Fi real 10.54.4.74 kthyen HTTP 200. Nuk u ndryshuan firewall-i/profili Public. Telefoni fizik, OAuth interaktiv dhe demonstrimi me kolegun: NOT VERIFIED.
+- `java-10.md` në rrënjë sipas modelit zyrtar, pa placeholders dhe pa rezultate të fabrikuara. Feedback-u zyrtar pritet pas dorëzimit manual; nuk u hap Issue.
+- Hapi vijues: kontrolli final i skedarëve/sekreteve, commit-i i kërkuar, push origin main dhe verifikimi i SHA/skedarëve në GitHub.
+
 ## Kërkesat
 
 - [x] Instalimi i `@neondatabase/serverless` dhe `server-only`.

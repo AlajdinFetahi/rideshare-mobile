@@ -31,15 +31,15 @@ describe("Kerkesa", () => {
     vi.clearAllMocks();
   });
 
-  test("pret udhëtimin dhe paraqet simulimin kur ka vende", async () => {
+  test("pret udhëtimin dhe paraqet kërkesën reale", async () => {
     gjejUdhetiminMock.mockResolvedValue(udhetimi);
 
     const html = renderToStaticMarkup(
       await Kerkesa({ params: Promise.resolve({ id: "2" }) }),
     );
 
-    expect(html).toContain("Simulim: Në pritje");
-    expect(html).toContain("Kërkesa për Fushë Kosovë");
+    expect(html).toContain("Duke lexuar gjendjen…");
+    expect(html).toContain("Fushë Kosovë – AAB");
   });
 
   test("paraqet mungesën e vendeve pa simuluar kërkesë", async () => {
@@ -49,7 +49,8 @@ describe("Kerkesa", () => {
       await Kerkesa({ params: Promise.resolve({ id: "2" }) }),
     );
 
-    expect(html).toContain("Nuk ka vende të lira.");
+    expect(html).toContain('data-testid="ride-seats">0');
+    expect(html).not.toContain("<button");
     expect(html).not.toContain("Simulim: Në pritje");
   });
 
