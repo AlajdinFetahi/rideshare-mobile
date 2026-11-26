@@ -141,3 +141,17 @@
 - Pamjet e Javës 9 në 320/390/768/1440 px u hapën dhe u inspektuan; pa overflow horizontal. Evidencat janë jashtë Git në `%TEMP%/rideshare-week09/`.
 - Laptopi: localhost dhe IP reale Wi-Fi përgjigjen HTTP 200; serveri dev mbetet në `0.0.0.0:3000`. Telefoni fizik, demonstrimi me kolegun dhe hyrja interaktive OAuth nga fillimi mbeten manuale; sesionet në server janë të testuara. Nuk u krijua Issue dhe nuk pretendohet 2/2 i botit.
 - Raporti `java-09.md` u plotësua sipas modelit. Hapi vijues: kontrolli final i ndryshimeve/sekreteve, commit/push dhe verifikimi i skedarëve online.
+
+# Java 11 — Njoftimet personale të qëndrueshme
+
+- Kërkesa: implementim minimal mbi Javën 10, migrim Neon, tri prova reale, raport sipas modelit zyrtar dhe commit/push në main. Pa subagents, workflow të personalizuar, dependenca ose mekanizma push.
+- Fillimi: main e pastër, `492380a`, identike me origin/main. U lexuan skema reale, autentikimi, pranimi atomik, polling-u dhe modeli/ushtrimet zyrtare.
+- `schema-java11.sql` u aplikua në Neon brenda një transaksioni migrimi: tabelë personale me foreign keys, UNIQUE(request_id,type), indeks marrësi dhe zgjerim minimal të funksionit ekzistues të pranimit. Asnjë rresht ekzistues nuk u fshi.
+- U shtuan libraria/endpoint-i personal, komponenti në layout dhe helper-i i përbashkët 5000 ms i polling-ut. Shkrimi kontrollon marrësin dhe kërkesën; read_at origjinal ruhet me COALESCE. Toast-et deduplikohen në memorien e ekranit; historia fillestare nuk krijon toast.
+- Provat përfundimtare Edge + Neon: PASS. Kërkesa 18 → njoftimi 4, 8 pranime të përsëritura pa kopje/zbritje tjetër; hapja 1 → 0 pas konfirmimit, retry pas 503, histori pas Refresh dhe autorizim 404/401/403; kërkesa 19 → njoftimi 5 pas offline të izoluar, 4 GET-e shtesë dhe rilidhje tjetër pa toast të dytë. Udhëtimet fiktive kanë prefiks `J11-1795709448314`.
+- Rollback real i transaksionit të pranimit për kërkesën 20: pending, 2 vende, zero njoftime. Udhëtimet e mëparshme u krahasuan para/pas pa ndryshime. Skripti i provave pati korrigjime selektori, header-i Vary dhe krahasimi Date para ekzekutimit të plotë të suksesshëm.
+- `npm test`: 42/42 PASS në 10 skedarë. `npm run lint`: PASS. `npm run build`: PASS, përfshirë build-in përfundimtar pas shtimit të testeve.
+- Browser: pa page errors/overflow në 320/390/768/1440 px; pesë pamje u hapën e u inspektuan. Rishikim lokal, jo i pavarur. Evidencat janë jashtë Git në `%TEMP%/rideshare-week11/`.
+- Dev server në proces të veçantë me komandën e kërkuar, listener `0.0.0.0:3000`; localhost dhe IP reale Wi-Fi `10.63.6.106` kthyen HTTP 200. Hapja e autentikuar e njoftimeve/kërkesës përmes IP-së LAN në laptop: PASS.
+- `java-11.md` në rrënjë u plotësua sipas modelit zyrtar, pa placeholder. Kufij: OAuth interaktiv me dy llogari reale, telefon fizik, kolegu dhe feedback-u i botit NOT VERIFIED; cold-start offline nuk ruan historinë personale jashtë memories. Nuk u krijua Issue.
+- Hapi vijues: kontrolli final i diff-it dhe skedarëve të përzgjedhur, commit-i i kërkuar dhe push normal në origin/main, pastaj krahasimi i SHA-së dhe kontrolli i skedarëve në GitHub.

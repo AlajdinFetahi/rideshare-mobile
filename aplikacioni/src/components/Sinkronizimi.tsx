@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Gjendja } from "@/lib/kerkesat";
 import type { Udhetim } from "@/lib/udhetimet";
 import { Hyrja } from "./Hyrja";
+import { startPolling } from "@/lib/polling";
 
 export function Sinkronizimi({ initialRide }: { initialRide: Udhetim }) {
   const [state, setState] = useState<Gjendja | null>(null);
@@ -55,15 +56,10 @@ export function Sinkronizimi({ initialRide }: { initialRide: Udhetim }) {
       void refresh();
     };
     read.current = refresh;
-    void refresh();
-    const timer = setInterval(() => void refresh(), 5000);
-    window.addEventListener("offline", offline);
-    window.addEventListener("online", online);
+    const stop = startPolling(() => void refresh(), offline, online);
     return () => {
       mounted.current = false;
-      clearInterval(timer);
-      window.removeEventListener("offline", offline);
-      window.removeEventListener("online", online);
+      stop();
       active.current?.abort();
       active.current = null;
     };

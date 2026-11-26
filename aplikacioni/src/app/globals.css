@@ -34,6 +34,17 @@ a {
   color: var(--focus);
 }
 
+.notifications {
+  max-width: 720px;
+  margin: auto;
+  padding: 0 24px;
+  overflow-wrap: anywhere;
+}
+
+.notifications article {
+  margin-top: 12px;
+}
+
 main {
   width: 100%;
   max-width: 720px;
